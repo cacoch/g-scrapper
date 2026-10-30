@@ -23,11 +23,10 @@ with ui.row():
     user_input = ui.input(label='klíčové slovní spojení', placeholder='začněte psát',
       validation={'Příliš krátký text': lambda value: len(value) > 10}).on('keydown.enter',
       lambda: backend.search())
-    search = ui.button('Hledej', on_click=lambda: backend.search(user_input, result))
-    ui.button('Stáhnout', on_click=lambda: ui.notify('Stahuji ....'))
+    search = ui.button('Hledej', on_click=lambda: backend.search(user_input, display_html  ))
+    ui.button('Stáhnout', on_click=lambda: ui.download.content("x", 'hello.txt'))
 with ui.row():
-    result = ui.html('', sanitize=False)
-
+    display_html = ui.html('', sanitize=True)
 
 ui.run(title="gscrapper")
 
