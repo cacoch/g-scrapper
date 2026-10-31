@@ -54,7 +54,7 @@ def duck(query):
     page = requests.get(base_url, params=params, headers=headers)
 
     if page.status_code != 200:
-        print(f"Error: Received status code {response.status_code}")
+        print(f"Error: Received status code {page.status_code}")
 
     page.raise_for_status() 
 
