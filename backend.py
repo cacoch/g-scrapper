@@ -3,15 +3,29 @@ from nicegui import ui,app
 import requests
 import re
 from bs4 import BeautifulSoup as bs
+import json
+import io 
 
 
 #async def search(user_input, result):
-def search(user_input, res_html ):
+def search(user_input, res_html,  ):
     ui.notify('Hledám....')
     str2search = user_input.value
 #    await asyncio.sleep(2)
 
     res_dict, html=  duck(str2search)
+    # convert to json 
+    json_data = json.dumps(res_dict)
+
+    # convert to csv
+    #fieldnames = res_dict[0].keys()
+    #csv_data = io.StringIO()
+    #with open(csv_data, "w", newline="", encoding="utf-8") as f:
+    #    writer = csv.DictWriter(f, fieldnames=fieldnames)
+    #    writer.writeheader()
+    #    writer.writerows(results)
+
+    app.storage.client['data']=json_data
     res_html.content = html 
     ui.notify('hotovo')
 
