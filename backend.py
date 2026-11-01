@@ -4,8 +4,34 @@ import requests
 import re
 from bs4 import BeautifulSoup as bs
 import json
-import io 
+import csv
 
+class CsvTextBuilder(object):
+    def __init__(self):
+        self.csv_string = []
+
+    def write(self, row):
+        self.csv_string.append(row)
+
+def dict2csv(dictionary):
+    """
+    Convert dictionry to csv string.
+    
+    Args:
+        dictionary: Dictionary to convert
+
+    Returns:
+        Multiline string in csv format
+    """
+    
+    fieldnames = list(dictionary[0].keys())
+
+    result = CsvTextBuilder()
+    writer = csv.DictWriter(result, fieldnames, lineterminator="\n")
+    writer.writeheader()
+    writer.writerows(dictionary)
+
+    return ''.join(result.csv_string)
 
 #async def search(user_input, result):
 def search(user_input, res_html,  ):
@@ -17,13 +43,6 @@ def search(user_input, res_html,  ):
     # convert to json 
     json_data = json.dumps(res_dict)
 
-    # convert to csv
-    #fieldnames = res_dict[0].keys()
-    #csv_data = io.StringIO()
-    #with open(csv_data, "w", newline="", encoding="utf-8") as f:
-    #    writer = csv.DictWriter(f, fieldnames=fieldnames)
-    #    writer.writeheader()
-    #    writer.writerows(results)
 
     app.storage.client['data']=json_data
     res_html.content = html 
