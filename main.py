@@ -2,6 +2,14 @@
 from nicegui import ui,app
 import backend 
 
+def download_file():
+    fmt = output_format.value
+
+    filename = f'data.{fmt}'
+
+    content = app.storage.client[fmt]
+
+    ui.download.content(content, filename)
 
 
 with ui.header().classes('items-center justify-between row') as header:
@@ -14,7 +22,7 @@ with ui.footer(value=False) as footer:
 
 with ui.left_drawer().classes('bg-blue-100') as left_drawer:
     ui.label('Výstupní formát')
-    toggle1 = ui.toggle(['csv', 'json'], value='csv')
+    output_format = ui.toggle(['csv', 'json'], value='csv')
     ui.label('Výstupní soubor:')
     #result = ui.label()
 
@@ -24,7 +32,7 @@ with ui.row():
       validation={'Příliš krátký text': lambda value: len(value) > 10}).on('keydown.enter',
       lambda: backend.search())
     search = ui.button('Hledej', on_click=lambda: backend.search(user_input, display_html  ))
-    ui.button('Stáhnout', on_click=lambda: ui.download.content(app.storage.client['data'], 'hello.txt'))
+    download = ui.button('Stáhnout', on_click=download_file)
 with ui.row():
     display_html = ui.html('', sanitize=True)
 
