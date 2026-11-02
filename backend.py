@@ -34,7 +34,7 @@ def dict2csv(dictionary):
     return ''.join(result.csv_string)
 
 #async def search(user_input, result):
-def search(user_input, res_html,  ):
+def search(user_input, res_html ):
     ui.notify('Hledám....')
     str2search = user_input.value
 #    await asyncio.sleep(2)
@@ -44,13 +44,26 @@ def search(user_input, res_html,  ):
     json_data = json.dumps(res_dict)
 
 
-    app.storage.client['data']=json_data
+    app.storage.client['json']=json_data
+
+    csvdata = dict2csv(res_dict)
+    app.storage.client['csv'] = csvdata
+
+    
     res_html.content = html 
     ui.notify('hotovo')
 
 
 def duck(query):
+    """
+    Given sting scrap from DDG result and parse it into dict
     
+    Args:
+        string: keywords to search 
+
+    Returns:
+        dictionary: parsed results 
+    """
     #filename = "DuckDuckGo.html"
     #f = open(filename)
     #soup = bs(f, "html.parser")
